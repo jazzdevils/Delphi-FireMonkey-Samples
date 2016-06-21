@@ -1,0 +1,190 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
+  FMX.Platform, System.Math;
+
+type
+  TForm1 = class(TForm)
+    VertScrollBox1: TVertScrollBox;
+    procedure FormCreate(Sender: TObject);
+    procedure VertScrollBox1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure RenderingSetupCallBack(const Sender, Context: TObject; var ColorBits, DepthBits: Integer;
+      var Stencil: Boolean; var Multisamples: Integer);
+    procedure RegisterRenderingSetup;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+
+uses Unit2, Unit3;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+  ScreenSize : TSize;
+  i, y: Integer;
+  FrameCard: TFrame2;
+  FrameScrollCard: TFrame3;
+  InStream1, InStream2, InStream3, InStream4: TResourceStream;
+  imageName: String;
+begin
+  ScreenSize := Screen.Size;
+  RegisterRenderingSetup;
+//  Screen.Size.Width
+  VertScrollBox1.BeginUpdate;
+  y := 5;
+  for i := 0 to 30 do begin
+    if (i mod 2) = 0 then begin
+      FrameScrollCard := TFrame3.Create(Self);
+      FrameScrollCard.Name := 'FrameScrollCard' + IntToStr(i);
+      FrameScrollCard.Width := Screen.Size.Width - 20;//VertScrollBox1.Width - 20;
+      FrameScrollCard.Height := 280;
+      FrameScrollCard.Position.X := 10;
+      FrameScrollCard.Parent := VertScrollBox1;
+      FrameScrollCard.Position.Y := y;
+
+//      FrameScrollCard.Rectangle1.HitTest := False;
+//      FrameScrollCard.Rectangle2.HitTest := False;
+//      FrameScrollCard.Rectangle3.HitTest := False;
+//      FrameScrollCard.Rectangle4.HitTest := False;
+
+      FrameScrollCard.Rectangle1.Stroke.kind := TBrushKind.None;
+      FrameScrollCard.Rectangle2.Stroke.kind := TBrushKind.None;
+      FrameScrollCard.Rectangle3.Stroke.kind := TBrushKind.None;
+      FrameScrollCard.Rectangle4.Stroke.kind := TBrushKind.None;
+
+      FrameScrollCard.Rectangle1.Fill.Kind := TBrushKind.Bitmap;
+      FrameScrollCard.Rectangle2.Fill.Kind := TBrushKind.Bitmap;
+      FrameScrollCard.Rectangle3.Fill.Kind := TBrushKind.Bitmap;
+      FrameScrollCard.Rectangle4.Fill.Kind := TBrushKind.Bitmap;
+
+      FrameScrollCard.Rectangle1.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      FrameScrollCard.Rectangle2.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      FrameScrollCard.Rectangle3.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      FrameScrollCard.Rectangle4.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      try
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 20));
+        InStream1 := TResourceStream.Create(HInstance, imageName, RT_RCDATA);
+        FrameScrollCard.Rectangle1.Fill.Bitmap.Bitmap.LoadFromStream(InStream1);
+        FrameScrollCard.Rectangle1.TagString := imageName;
+
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 20));
+        InStream2 := TResourceStream.Create(HInstance, imageName, RT_RCDATA);
+        FrameScrollCard.Rectangle2.Fill.Bitmap.Bitmap.LoadFromStream(InStream2);
+        FrameScrollCard.Rectangle2.TagString := imageName;
+
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 20));
+        InStream3 := TResourceStream.Create(HInstance, imageName, RT_RCDATA);
+        FrameScrollCard.Rectangle3.Fill.Bitmap.Bitmap.LoadFromStream(InStream3);
+        FrameScrollCard.Rectangle3.TagString := imageName;
+
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 20));
+        InStream4 := TResourceStream.Create(HInstance, imageName, RT_RCDATA);
+        FrameScrollCard.Rectangle4.Fill.Bitmap.Bitmap.LoadFromStream(InStream4);
+        FrameScrollCard.Rectangle4.TagString := imageName;
+
+        FrameScrollCard.Text1.Text := 'Lee Hyo Ri : ' + IntToStr(i);
+      finally
+        InStream1.Free;
+        InStream2.Free;
+        InStream3.Free;
+      end;
+
+      FrameScrollCard.Position.X := Screen.Size.Width;
+
+      y := y + Round(FrameScrollCard.Height) + 5;
+    end
+    else begin
+      FrameCard := TFrame2.Create(Self);
+      FrameCard.Name := 'FrameCard' + IntToStr(i);
+      FrameCard.Width := Screen.Size.Width - 20;//VertScrollBox1.Width - 20;
+      FrameCard.Height := 235;
+      FrameCard.Position.X := 10;
+      FrameCard.Parent := VertScrollBox1;
+      FrameCard.Position.Y := y;
+
+//      FrameCard.Rectangle1.HitTest := False;
+//      FrameCard.Rectangle2.HitTest := False;
+
+      FrameCard.Rectangle1.Stroke.kind := TBrushKind.None;
+      FrameCard.Rectangle2.Stroke.kind := TBrushKind.None;
+
+      FrameCard.Rectangle1.Fill.Kind := TBrushKind.Bitmap;
+      FrameCard.Rectangle2.Fill.Kind := TBrushKind.Bitmap;
+
+      FrameCard.Rectangle1.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      FrameCard.Rectangle2.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+      try
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 10));
+        InStream1 := TResourceStream.Create(HInstance,imageName , RT_RCDATA);
+        FrameCard.Rectangle1.Fill.Bitmap.Bitmap.LoadFromStream(InStream1);
+        FrameCard.Rectangle1.TagString := imageName;
+
+        imageName := 'JpgImage_' + IntToStr(RandomRange(1, 10));
+        InStream2 := TResourceStream.Create(HInstance, imageName, RT_RCDATA);
+        FrameCard.Rectangle2.Fill.Bitmap.Bitmap.LoadFromStream(InStream2);
+        FrameCard.Rectangle2.TagString := imageName;
+
+//        FrameCard.Text1.Text := 'Mozilla Firefox (known simply as Firefox) is a free and open-source[18] '
+//          + 'web browser developed for Windows, OS X, and Linux, with a mobile version for '
+//          + 'Android, by the Mozilla Foundation and its subsidiary, the Mozilla Corporation. '
+//          + 'Firefox uses the Gecko layout engine to render web pages, which implements current'
+//          + 'and anticipated web standards.[19] As of February 2015, Firefox has between 12% '
+//          + 'and 20% of worldwide usage as a "desktop" browser, making it, per different sources,'
+//          + 'the third most popular web browser.[20][21][22][23] Still, the browser is most popular '
+//          + 'in several countries, as a desktop browser[24][25] (or even across all platforms[26]) '
+//          + 'including Indonesia, Germany, and Iran, at 50%,[27] 44%[28] and 37%,[29] of the market'
+//          + 'share, respectively. According to Mozilla, as of December 2014, there are half a billion '
+//          + 'Firefox users around the world.';
+
+      finally
+        InStream1.Free;
+        InStream2.Free;
+//        InStream3.Free;
+      end;
+
+      y := y + Round(FrameCard.Height) + 5;
+    end;
+
+  end;
+  VertScrollBox1.EndUpdate;
+
+end;
+
+procedure TForm1.RegisterRenderingSetup;
+var
+  SetupService: IFMXRenderingSetupService;
+begin
+  if TPlatformServices.Current.SupportsPlatformService(IFMXRenderingSetupService, IInterface(SetupService)) then
+    SetupService.Subscribe(RenderingSetupCallBack);
+
+end;
+
+procedure TForm1.RenderingSetupCallBack(const Sender, Context: TObject;
+  var ColorBits, DepthBits: Integer; var Stencil: Boolean;
+  var Multisamples: Integer);
+begin
+  ColorBits := 16;
+  DepthBits := 0;
+  Stencil := False;
+  Multisamples := 0;
+end;
+
+procedure TForm1.VertScrollBox1DblClick(Sender: TObject);
+begin
+  showmessage('Double Click');
+end;
+
+end.
+

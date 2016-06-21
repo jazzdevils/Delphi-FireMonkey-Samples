@@ -1,0 +1,103 @@
+object Frame2: TFrame2
+  Touch.InteractiveGestures = [Pan]
+  Size.Width = 374.000000000000000000
+  Size.Height = 235.000000000000000000
+  Size.PlatformDefault = False
+  object GridPanelLayout1: TGridPanelLayout
+    Touch.InteractiveGestures = [Pan]
+    Align = Client
+    HitTest = False
+    Size.Width = 374.000000000000000000
+    Size.Height = 235.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    ColumnCollection = <
+      item
+        Value = 50.000000000000000000
+      end
+      item
+        Value = 50.000000000000000000
+      end>
+    ControlCollection = <
+      item
+        Column = 0
+        Control = Rectangle1
+        Row = 0
+      end
+      item
+        Column = 0
+        Control = Layout1
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = Rectangle2
+        Row = 0
+      end
+      item
+        Column = 1
+        Control = Layout2
+        Row = 1
+      end>
+    RowCollection = <
+      item
+        Value = 100.000000000000000000
+      end
+      item
+        SizeStyle = Auto
+      end>
+    object Rectangle1: TRectangle
+      Align = Client
+      Margins.Left = 20.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 20.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Size.Width = 147.000000000000000000
+      Size.Height = 145.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout1: TLayout
+      Align = Bottom
+      Position.Y = 185.000000000000000000
+      Size.Width = 187.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Text2: TText
+        Align = Client
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Size.Width = 147.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Text = #49345#54408#47749' 1'
+      end
+    end
+    object Rectangle2: TRectangle
+      Align = Client
+      Margins.Left = 20.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 20.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Size.Width = 147.000000000000000000
+      Size.Height = 145.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Client
+      Size.Width = 187.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Text1: TText
+        Align = Client
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Size.Width = 147.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Text = #49345#54408#47749' 2'
+      end
+    end
+  end
+end

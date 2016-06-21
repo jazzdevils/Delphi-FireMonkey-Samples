@@ -1,0 +1,22 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 597
+  ClientWidth = 381
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object VertScrollBox1: TVertScrollBox
+    Touch.InteractiveGestures = []
+    Align = Client
+    Size.Width = 381.000000000000000000
+    Size.Height = 597.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Viewport.Width = 381.000000000000000000
+    Viewport.Height = 597.000000000000000000
+  end
+end

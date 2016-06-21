@@ -1,0 +1,59 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 601
+  ClientWidth = 412
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    OnGesture = Layout1Gesture
+    Align = Client
+    Size.Width = 412.000000000000000000
+    Size.Height = 601.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object AniIndicator1: TAniIndicator
+      Enabled = True
+      Position.X = 328.000000000000000000
+      Position.Y = 16.000000000000000000
+    end
+    object ListBox1: TListBox
+      Align = Client
+      Size.Width = 412.000000000000000000
+      Size.Height = 601.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      OnMouseDown = ListBox1MouseDown
+      OnMouseMove = ListBox1MouseMove
+      OnMouseUp = ListBox1MouseUp
+      ShowScrollBars = False
+      ShowSizeGrip = True
+      OnViewportPositionChange = ListBox1ViewportPositionChange
+      CanFocus = False
+      DisableFocusEffect = True
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 408.000000000000000000
+      Viewport.Height = 597.000000000000000000
+    end
+    object Timer1: TTimer
+      Enabled = False
+      Interval = 3000
+      OnTimer = Timer1Timer
+      Left = 304
+      Top = 304
+    end
+  end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = Timer2Timer
+    Left = 168
+    Top = 369
+  end
+end

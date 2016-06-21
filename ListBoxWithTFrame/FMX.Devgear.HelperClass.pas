@@ -1,0 +1,150 @@
+unit FMX.Devgear.HelperClass;
+
+interface
+
+uses
+  System.Classes,
+  FMX.Graphics,
+  System.SysUtils,
+  IdHttp, IdTCPClient;
+
+type
+  TBitmapHelper = class helper for TBitmap
+  public
+    function CreateThumbnailWithScale(const AWidth, AHeight: Integer): TBitmap;
+
+    procedure LoadFromUrl(AUrl: string);
+    procedure LoadThumbnailFromUrl(AUrl: string; const AFitWidth, AFitHeight: Integer);
+    procedure SaveToFileFromUrl(AUrl, APath: String; CallBack: TProc = nil);
+  end;
+
+var
+  Mem: TMemoryStream;
+//  Http: TIdHttp;
+
+implementation
+
+uses
+  System.Types, AnonThread;
+
+function TBitmapHelper.CreateThumbnailWithScale(const AWidth,
+  AHeight: Integer): TBitmap;
+var
+  Scale: Single;
+  NewWidth, NewHeight: Integer;
+begin
+  if Self.Height > Self.Width then begin
+    NewHeight := AHeight;
+    Scale := NewHeight / Self.Height;
+    NewWidth := Round(Self.Width * Scale);
+  end
+  else if Self.Height < Self.Width then begin
+    NewWidth := AWidth;
+    Scale := NewWidth / Self.Width;
+    NewHeight := Round(Self.Height * Scale);
+  end
+  else begin
+    NewHeight := AWidth;
+    NewWidth := AWidth;
+  end;
+
+  Result := Self.CreateThumbnail(NewWidth, NewHeight);
+end;
+
+procedure TBitmapHelper.LoadFromUrl(AUrl: string);
+var
+  _Thread: TAnonymousThread<TMemoryStream>;
+begin
+  _Thread := TAnonymousThread<TMemoryStream>.Create(
+    function: TMemoryStream
+    var
+      Http: TIdHttp;
+    begin
+      Result := TMemoryStream.Create;
+
+      if not Assigned(Http) then
+        Http := TIdHttp.Create(nil);
+      try
+        try
+          Http.Get(AUrl, Result);
+        except
+          Result.Free;
+        end;
+      finally
+        Http.Free;
+      end;
+    end,
+    procedure(AResult: TMemoryStream)
+    begin
+      if Assigned(AResult) then begin
+        if AResult.Size > 0 then
+          LoadFromStream(AResult);
+
+        AResult.Free;
+      end;
+    end,
+    procedure(AException: Exception)
+    begin
+    end
+  );
+end;
+
+procedure TBitmapHelper.LoadThumbnailFromUrl(AUrl: string; const AFitWidth,
+  AFitHeight: Integer);
+var
+  Bitmap: TBitmap;
+  scale: Single;
+begin
+  LoadFromUrl(AUrl);
+  scale := 1;//RectF(0, 0, Width, Height).Fit(RectF(0, 0, AFitWidth, AFitHeight));
+  Bitmap := CreateThumbnail(Round(Width / scale), Round(Height / scale));
+  try
+    Assign(Bitmap);
+  finally
+    Bitmap.Free;
+  end;
+end;
+
+procedure TBitmapHelper.SaveToFileFromUrl(AUrl, APath: String; CallBack: TProc);
+var
+  _Thread: TAnonymousThread<TMemoryStream>;
+begin
+  _Thread := TAnonymousThread<TMemoryStream>.Create(
+    function: TMemoryStream
+    var
+      Http: TIdHttp;
+    begin
+      Result := TMemoryStream.Create;
+      Http := TIdHttp.Create(nil);
+      try
+        try
+          Http.Get(AUrl, Result);
+        except
+          Result.Free;
+        end;
+      finally
+        Http.Free;
+      end;
+    end,
+    procedure(AResult: TMemoryStream)
+    begin
+      if Assigned(AResult) then begin
+        try
+          if AResult.Size > 0 then begin
+            AResult.SaveToFile(APath);
+
+            if Assigned(CallBack) then
+              CallBack;
+          end;
+        finally
+          AResult.Free;
+        end;
+      end;
+    end,
+    procedure(AException: Exception)
+    begin
+    end
+  );
+end;
+
+end.

@@ -1,0 +1,161 @@
+object Frame2: TFrame2
+  Touch.InteractiveGestures = [Pan]
+  Align = Client
+  HitTest = False
+  Size.Width = 373.000000000000000000
+  Size.Height = 254.000000000000000000
+  Size.PlatformDefault = False
+  object GridPanelLayout1: TGridPanelLayout
+    Align = Client
+    HitTest = False
+    Size.Width = 373.000000000000000000
+    Size.Height = 254.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    ColumnCollection = <
+      item
+        Value = 50.000000000000000000
+      end
+      item
+        Value = 50.000000000000000000
+      end>
+    ControlCollection = <
+      item
+        Column = 0
+        Control = Rectangle1
+        Row = 0
+      end
+      item
+        Column = 0
+        Control = Layout1
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = Rectangle2
+        Row = 0
+      end
+      item
+        Column = 1
+        Control = Layout2
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = Rectangle3
+        Row = 2
+      end
+      item
+        Column = 0
+        Control = FlatRectButton1
+        Row = 2
+      end>
+    RowCollection = <
+      item
+        Value = 76.923076923076930000
+      end
+      item
+        SizeStyle = Auto
+      end
+      item
+        Value = 23.076923076923070000
+      end
+      item
+        SizeStyle = Auto
+      end>
+    object Rectangle1: TRectangle
+      OnTap = Rectangle1Tap
+      Align = Client
+      Fill.Bitmap.WrapMode = Tile
+      Fill.Kind = Bitmap
+      Margins.Left = 20.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 20.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Size.Width = 146.500000000000000000
+      Size.Height = 116.923080444336000000
+      Size.PlatformDefault = False
+      object FloatAnimation1: TFloatAnimation
+        Duration = 0.200000002980232200
+        StartValue = 0.000000000000000000
+        StopValue = 0.000000000000000000
+      end
+    end
+    object Layout1: TLayout
+      Align = Bottom
+      Position.Y = 156.923080444335900000
+      Size.Width = 186.500000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Text1: TText
+        Align = Client
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Size.Width = 146.500000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'TText1'
+      end
+    end
+    object Rectangle2: TRectangle
+      OnTap = Rectangle1Tap
+      Align = Client
+      Margins.Left = 20.000000000000000000
+      Margins.Top = 20.000000000000000000
+      Margins.Right = 20.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Size.Width = 146.500000000000000000
+      Size.Height = 116.923080444336000000
+      Size.PlatformDefault = False
+    end
+    object Layout2: TLayout
+      Align = Client
+      Size.Width = 186.500000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Text2: TText
+        Align = Client
+        Margins.Left = 20.000000000000000000
+        Margins.Right = 20.000000000000000000
+        Size.Width = 146.500000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'TText2'
+      end
+    end
+    object Rectangle3: TRectangle
+      Align = Client
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Size.Width = 176.500000000000000000
+      Size.Height = 37.076919555664060000
+      Size.PlatformDefault = False
+    end
+    object FlatRectButton1: TFlatRectButton
+      Align = Client
+      Fill.Color = xFF3498DB
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Sides = []
+      Size.Width = 176.500000000000000000
+      Size.Height = 37.076919555664060000
+      Size.PlatformDefault = False
+      OnClick = FlatRectButton1Click
+      Text = 'Test RectButton'
+      Settings.TextSettings.TextHorizontal = Center
+      Settings.TextSettings.TextVertical = Center
+      Settings.TextSettings.TextColor = claBlanchedalmond
+      Settings.TextSettings.Font.Size = 16.000000000000000000
+      Settings.ButtonSettings.ButtonColor = xFF3498DB
+      Settings.ButtonSettings.IsHoverColor = xFF5B9FCC
+      Settings.ButtonSettings.IsPressedColor = xFF2980B9
+      Settings.IconSettings.Align = Top
+    end
+  end
+end

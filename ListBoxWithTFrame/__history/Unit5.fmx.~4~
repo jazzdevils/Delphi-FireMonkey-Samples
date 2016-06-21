@@ -1,0 +1,21 @@
+object Frame5: TFrame5
+  Align = Client
+  Size.Width = 320.000000000000000000
+  Size.Height = 225.000000000000000000
+  Size.PlatformDefault = False
+  object TMSFMXDockPanel1: TTMSFMXDockPanel
+    Version = '1.0.1.0'
+    Appearance.Stroke.Thickness = 3.000000000000000000
+    Align = Client
+    DisableFocusEffect = False
+    HitTest = False
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    TabOrder = 0
+    Size.Width = 300.000000000000000000
+    Size.Height = 205.000000000000000000
+    Size.PlatformDefault = False
+  end
+end

@@ -1,0 +1,118 @@
+object Frame3: TFrame3
+  HitTest = False
+  Size.Width = 759.000000000000000000
+  Size.Height = 280.000000000000000000
+  Size.PlatformDefault = False
+  object HorzScrollBox1: THorzScrollBox
+    Touch.InteractiveGestures = []
+    Align = Bottom
+    Position.Y = 45.000000000000000000
+    Size.Width = 759.000000000000000000
+    Size.Height = 235.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    ShowScrollBars = False
+    Viewport.Width = 759.000000000000000000
+    Viewport.Height = 235.000000000000000000
+    object Layout1: TLayout
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Right = 5.000000000000000000
+      Margins.Bottom = 5.000000000000000000
+      Position.X = 5.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 181.000000000000000000
+      Size.Height = 225.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Rectangle1: TRectangle
+        OnTap = Rectangle1Tap
+        Size.Width = 181.000000000000000000
+        Size.Height = 181.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Text1: TText
+        Align = Bottom
+        HitTest = False
+        Position.Y = 184.000000000000000000
+        Size.Width = 181.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object Layout2: TLayout
+      Position.X = 192.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 181.000000000000000000
+      Size.Height = 225.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Rectangle2: TRectangle
+        OnTap = Rectangle1Tap
+        Size.Width = 181.000000000000000000
+        Size.Height = 181.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Text2: TText
+        Align = Bottom
+        HitTest = False
+        Position.Y = 184.000000000000000000
+        Size.Width = 181.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object Layout3: TLayout
+      Position.X = 379.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 181.000000000000000000
+      Size.Height = 225.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Rectangle3: TRectangle
+        OnTap = Rectangle1Tap
+        Size.Width = 181.000000000000000000
+        Size.Height = 181.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Text3: TText
+        Align = Bottom
+        HitTest = False
+        Position.Y = 184.000000000000000000
+        Size.Width = 181.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object Layout4: TLayout
+      Position.X = 565.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 181.000000000000000000
+      Size.Height = 225.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object Rectangle4: TRectangle
+        OnTap = Rectangle1Tap
+        Size.Width = 181.000000000000000000
+        Size.Height = 181.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object Text4: TText
+        Align = Bottom
+        HitTest = False
+        Position.Y = 184.000000000000000000
+        Size.Width = 181.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+  end
+  object Text5: TText
+    Position.X = 8.000000000000000000
+    Size.Width = 153.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Goods of Today'
+  end
+end

@@ -1,0 +1,23 @@
+object Frame5: TFrame5
+  Size.Width = 320.000000000000000000
+  Size.Height = 240.000000000000000000
+  Size.PlatformDefault = False
+  object Panel1: TPanel
+    Align = Client
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Size.Width = 300.000000000000000000
+    Size.Height = 220.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object ShadowEffect1: TShadowEffect
+      Distance = 3.000000000000000000
+      Direction = 45.000000000000000000
+      Softness = 0.300000011920929000
+      Opacity = 0.600000023841857900
+      ShadowColor = claBlack
+    end
+  end
+end

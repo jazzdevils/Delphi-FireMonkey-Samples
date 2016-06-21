@@ -1,0 +1,115 @@
+object Frame4: TFrame4
+  Align = Client
+  HitTest = False
+  Size.Width = 414.000000000000000000
+  Size.Height = 272.000000000000000000
+  Size.PlatformDefault = False
+  object GridPanelLayout1: TGridPanelLayout
+    Align = Client
+    HitTest = False
+    Size.Width = 414.000000000000000000
+    Size.Height = 272.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    ColumnCollection = <
+      item
+        Value = 50.000000000000000000
+      end
+      item
+        Value = 50.000000000000000000
+      end>
+    ControlCollection = <
+      item
+        Column = 0
+        Control = Rectangle1
+        Row = 0
+      end
+      item
+        Column = 1
+        Control = Rectangle2
+        Row = 0
+      end>
+    RowCollection = <
+      item
+        Value = 100.000000000000000000
+      end
+      item
+        SizeStyle = Auto
+      end>
+    object Rectangle1: TRectangle
+      OnTap = Rectangle1Tap
+      Align = Client
+      EnableDragHighlight = False
+      Fill.Bitmap.WrapMode = TileStretch
+      Fill.Kind = Bitmap
+      Locked = True
+      HitTest = False
+      Margins.Top = 2.000000000000000000
+      Margins.Right = 2.000000000000000000
+      Margins.Bottom = 2.000000000000000000
+      Size.Width = 205.000000000000000000
+      Size.Height = 268.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      object Rectangle3: TRectangle
+        Align = Bottom
+        Fill.Color = claBlack
+        HitTest = False
+        Opacity = 0.600000023841857900
+        Position.Y = 198.000000000000000000
+        Size.Width = 205.000000000000000000
+        Size.Height = 70.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Kind = None
+        object Text1: TText
+          Align = Client
+          HitTest = False
+          Size.Width = 205.000000000000000000
+          Size.Height = 70.000000000000000000
+          Size.PlatformDefault = False
+          Text = #54952#47532#44032' '#51221#45813#51060#45796'.'
+          TextSettings.Font.Family = 'GulimChe'
+          TextSettings.Font.Size = 14.000000000000000000
+          TextSettings.Font.Style = [fsBold]
+          TextSettings.FontColor = claWhite
+        end
+      end
+    end
+    object Rectangle2: TRectangle
+      OnTap = Rectangle2Tap
+      Align = Client
+      Fill.Bitmap.WrapMode = TileStretch
+      Fill.Kind = Bitmap
+      HitTest = False
+      Margins.Left = 2.000000000000000000
+      Margins.Top = 2.000000000000000000
+      Margins.Bottom = 2.000000000000000000
+      Size.Width = 205.000000000000000000
+      Size.Height = 268.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = None
+      object Rectangle4: TRectangle
+        Align = Bottom
+        Fill.Color = claBlack
+        HitTest = False
+        Opacity = 0.600000023841857900
+        Position.Y = 198.000000000000000000
+        Size.Width = 205.000000000000000000
+        Size.Height = 70.000000000000000000
+        Size.PlatformDefault = False
+        object Text2: TText
+          Align = Client
+          HitTest = False
+          Size.Width = 205.000000000000000000
+          Size.Height = 70.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Android'#51032' cardview widget'#51008' titanium sdk'#50640#49436' '#51648#50896#54616#44256' '#51080#51648' '#50506#50500#50836'.'
+          TextSettings.Font.Family = 'Segoe UI Semibold'
+          TextSettings.Font.Size = 14.000000000000000000
+          TextSettings.Font.Style = [fsBold]
+          TextSettings.FontColor = claWhite
+        end
+      end
+    end
+  end
+end

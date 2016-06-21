@@ -1,0 +1,124 @@
+unit uImageLoader;
+
+interface
+
+uses SysUtils, Classes, System.Generics.Collections,
+   FMX.Types, FMX.Objects, FMX.Controls, AsyncTask, AsyncTask.HTTP, FMX.Graphics;
+
+type
+  TLoadQueueItem = record
+    ImageURL: String;
+    Bitmap: TBitmap;
+  end;
+  TLoadQueue = TList<TLoadQueueItem>;
+
+  TImageLoader = class(TObject)
+  private
+    fQueue: TLoadQueue;
+    fWorker: TTimer;
+    fActiveItem: TLoadQueueItem;
+    fIsWorking: Boolean;
+    procedure QueueWorkerOnTimer(ASender: TObject);
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure LoadImage(ABitmap: TBitmap; AImageURL: string); overload;
+    property ActiveItem: TLoadQueueItem read fActiveItem;
+    property IsWorking: Boolean read fIsWorking;
+  end;
+
+var
+  DefaultImageLoader: TImageLoader;
+
+implementation
+
+var
+  FCachedImages: TObjectDictionary<String, TBitmap>;
+{ TImageLoader }
+
+constructor TImageLoader.Create;
+begin
+  inherited Create;
+  fQueue := TLoadQueue.Create;
+  fIsWorking := False;
+  fWorker := TTimer.Create(nil);
+  fWorker.Enabled := False;
+  fWorker.Interval := 50;
+  fWorker.OnTimer := QueueWorkerOnTimer;
+  fWorker.Enabled := True;
+end;
+
+destructor TImageLoader.Destroy;
+begin
+  fWorker.Free;
+  fQueue.Free;
+  inherited;
+end;
+
+procedure TImageLoader.LoadImage(ABitmap: TBitmap; AImageURL: string);
+var
+  item: TLoadQueueItem;
+begin
+  item.ImageURL := AImageURL;
+  item.Bitmap := ABitmap;
+  fQueue.Add(item);
+end;
+
+procedure TImageLoader.QueueWorkerOnTimer(ASender: TObject);
+var
+  lBitmap: TBitmap;
+  Mem: TMemoryStream;
+begin
+  fWorker.Enabled := False;
+  if (fQueue.Count > 0) and (not fIsWorking) then
+  begin
+    fIsWorking := True;
+    fActiveItem := fQueue[0];
+    fQueue.Delete(0);
+    lBitmap := nil;
+    if FCachedImages.TryGetValue(fActiveItem.ImageURL, lBitmap) and (lBitmap <> nil) then
+    begin
+      lBitmap.SaveToStream(Mem);
+      Mem.Seek(0, 0);
+//      fActiveItem.Bitmap.Assign(lBitmap);
+      fActiveItem.Bitmap.LoadFromStream(Mem);
+      fIsWorking := False;
+    end else
+    begin
+      AsyncTask.Run(
+        THttpAsyncTaskBitmap.Create(fActiveItem.ImageURL),
+        // Finished
+        procedure (ATask: IAsyncTask)
+        var
+          fBitmap: TBitmap;
+        begin
+          lBitmap := TBitmap.Create(0, 0);
+          fBitmap := (ATask as IHttpBitmapResponse).Bitmap;
+          if fBitmap <> nil then
+          begin
+            lBitmap.Assign(fBitmap);
+            FCachedImages.AddOrSetValue(fActiveItem.ImageURL, lBitmap);
+            lBitmap.SaveToStream(Mem);
+            Mem.Seek(0, 0);
+            fActiveItem.Bitmap.LoadFromStream(Mem);
+          end;
+          fIsWorking := False;
+        end
+      );
+    end;
+
+  end;
+  fWorker.Enabled := True;
+end;
+
+initialization
+  FCachedImages := TObjectDictionary<String, TBitmap>.Create([], 10);
+  DefaultImageLoader := TImageLoader.Create;
+
+finalization
+  FCachedImages.Free;
+  DefaultImageLoader.Free;
+
+
+end.

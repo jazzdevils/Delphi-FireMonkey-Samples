@@ -1,0 +1,199 @@
+unit AListBoxHelper;
+
+interface
+
+uses
+  Classes, Types, FMX.ListBox, FMX.Types;
+
+Const
+  CHECK_POINT_FOR_MORE_ITEM_DEFAULT = 10;
+  CHECK_POINT_FOR_MORE_ITEM_TIMER_INTERVAL = 64;
+  SCROLL_END_CHECK_TIMER_INTERVAL = 150;
+
+type
+  TListBoxScrollEvent = procedure(Sender: TObject; ABegIndex, AEndIndex: Integer) of object;
+
+  TListBoxScrollDetector = class
+  public
+    procedure ViewportPositionChangeFired(Sender: TObject; const OldViewportPosition, NewViewportPosition: TPointF; const ContentSizeChanged: Boolean);
+
+  private
+    FListBox: TListBox;
+    FListBoxItemCount: Integer;
+
+    FOnAir: Boolean;
+    FCheckPointForMoreItem: Integer;
+    FCheckPointForMoreItemTimer: TTimer;
+
+    FViewportPositionChangedTime: TDateTime;
+    FScrollPassedCheckPointForMoreItem: Boolean;
+    FScrollEndCheckTimer: TTimer;
+
+    FOnScrollBegin: TListBoxScrollEvent;
+    FOnScrollPassingCheckPointForMoreItem: TListBoxScrollEvent;
+    FOnScrollEnd: TListBoxScrollEvent;
+
+    procedure FireScrollBeginEvent;
+    procedure CheckScrollPassingCheckPointForMoreItem;
+    procedure FireScrollEndEvent;
+
+    procedure OnCheckPointForMoreItemTimerFired(Sender: TObject);
+    procedure OnScrollEndCheckTimerFired(Sender: TObject);
+
+  public
+    constructor Create(AListBox: TListBox);
+
+  public
+    property OnScrollBegin: TListBoxScrollEvent write FOnScrollBegin;
+    property OnScrollPassingCheckPointForMoreItem: TListBoxScrollEvent write FOnScrollPassingCheckPointForMoreItem;
+    property OnScrollEnd: TListBoxScrollEvent write FOnScrollEnd;
+  end;
+
+  function CreateListBoxItem(AHeight: Single; AListBox: TListBox): TListBoxItem;
+
+implementation
+
+uses
+  Math, SysUtils;
+
+function CreateListBoxItem(AHeight: Single; AListBox: TListBox): TListBoxItem;
+var
+  LItem: TListBoxItem;
+begin
+  LItem := TListBoxItem.Create(nil); begin
+    LItem.Height := AHeight;
+
+    AListBox.AddObject(LItem);
+  end;
+
+  Result := LItem;
+end;
+
+{ TListBoxScrollDetector }
+
+procedure TListBoxScrollDetector.ViewportPositionChangeFired(Sender: TObject; const OldViewportPosition, NewViewportPosition: TPointF; const ContentSizeChanged: Boolean);
+begin
+  FViewportPositionChangedTime := Now;
+
+  if FOnAir = False then begin
+    FOnAir := True; FireScrollBeginEvent;
+
+    FScrollEndCheckTimer.Enabled := True;
+  end
+  else begin
+
+  end;
+
+end;
+
+constructor TListBoxScrollDetector.Create(AListBox: TListBox);
+  function GetCheckPointForMoreItem: Integer;
+  begin
+    Result := Max(FListBoxItemCount - CHECK_POINT_FOR_MORE_ITEM_DEFAULT, 0);
+  end;
+begin
+  FListBox := AListBox; begin
+    FListBox.OnViewportPositionChange := ViewportPositionChangeFired;
+    FListBoxItemCount := FListBox.Items.Count;
+    FCheckPointForMoreItem := GetCheckPointForMoreItem;
+  end;
+  FCheckPointForMoreItemTimer := TTimer.Create(nil); begin
+    FCheckPointForMoreItemTimer.Interval := CHECK_POINT_FOR_MORE_ITEM_TIMER_INTERVAL;
+    FCheckPointForMoreItemTimer.OnTimer := OnCheckPointForMoreItemTimerFired;
+  end;
+  FScrollEndCheckTimer := TTimer.Create(nil); begin
+    FScrollEndCheckTimer.Interval := SCROLL_END_CHECK_TIMER_INTERVAL;
+    FScrollEndCheckTimer.OnTimer := OnScrollEndCheckTimerFired;
+  end;
+end;
+
+procedure TListBoxScrollDetector.FireScrollBeginEvent;
+var
+  LTopItem: TListBoxItem;
+  LBottomItem: TListBoxItem;
+
+  LTopItemIndex: Integer;
+  LBottomItemIndex: Integer;
+begin
+  if Assigned(FOnScrollBegin) then begin
+    LTopItem := FListBox.ItemByPoint(1, 0);
+    LBottomItem := FListBox.ItemByPoint(1, FListBox.Size.Height - 1);
+
+    LTopItemIndex := -1; if Assigned(LTopItem) then LTopItemIndex := LTopItem.Index;
+    LBottomItemIndex := -1; if Assigned(LBottomItem) then LBottomItemIndex := LBottomItem.Index;
+
+    FOnScrollBegin(nil, LTopItemIndex, LBottomItemIndex);
+  end;
+end;
+
+procedure TListBoxScrollDetector.CheckScrollPassingCheckPointForMoreItem;
+var
+//  LTopItem: TListBoxItem;
+  LBottomItem: TListBoxItem;
+
+//  LTopItemIndex: Integer;
+  LBottomItemIndex: Integer;
+begin
+  if Assigned(FOnScrollPassingCheckPointForMoreItem) and (FScrollPassedCheckPointForMoreItem = False) then begin
+//    LTopItem := FListBox.ItemByPoint(1, 0);
+    LBottomItem := FListBox.ItemByPoint(1, FListBox.Size.Height - 1);
+
+//    LTopItemIndex := -1; if Assigned(LTopItem) then LTopItemIndex := LTopItem.Index;
+    LBottomItemIndex := -1; if Assigned(LBottomItem) then LBottomItemIndex := LBottomItem.Index;
+
+    if LBottomItemIndex >= FCheckPointForMoreItem then begin
+      FScrollPassedCheckPointForMoreItem := True;
+
+      FCheckPointForMoreItemTimer.Tag := 10;
+      FCheckPointForMoreItemTimer.Enabled := True;
+    end;
+  end;
+end;
+
+procedure TListBoxScrollDetector.FireScrollEndEvent;
+var
+  LTopItem: TListBoxItem;
+  LBottomItem: TListBoxItem;
+
+  LTopItemIndex: Integer;
+  LBottomItemIndex: Integer;
+begin
+  if Assigned(FOnScrollEnd) then begin
+    LTopItem := FListBox.ItemByPoint(1, 0);
+    LBottomItem := FListBox.ItemByPoint(1, FListBox.Size.Height - 1);
+
+    LTopItemIndex := -1; if Assigned(LTopItem) then LTopItemIndex := LTopItem.Index;
+    LBottomItemIndex := -1; if Assigned(LBottomItem) then LBottomItemIndex := LBottomItem.Index;
+
+    FOnScrollEnd(nil, LTopItemIndex, LBottomItemIndex);
+  end;
+end;
+
+procedure TListBoxScrollDetector.OnCheckPointForMoreItemTimerFired(Sender: TObject);
+var
+  LTimer: TTimer;
+begin
+  LTimer := TTimer(Self);
+
+  if LTimer.Tag = 0  then begin
+    LTimer.Enabled := False;
+    FScrollPassedCheckPointForMoreItem := False;
+  end
+  else
+    FOnScrollPassingCheckPointForMoreItem(nil, -1, -1);
+end;
+
+procedure TListBoxScrollDetector.OnScrollEndCheckTimerFired(Sender: TObject);
+begin
+  if FOnAir then begin
+    if FViewportPositionChangedTime + EncodeTime(0, 0, 0, SCROLL_END_CHECK_TIMER_INTERVAL) < Now then begin
+      FScrollEndCheckTimer.Enabled := False;
+
+      FOnAir := False; FireScrollEndEvent;
+    end;
+
+    CheckScrollPassingCheckPointForMoreItem;
+  end;
+end;
+
+end.
